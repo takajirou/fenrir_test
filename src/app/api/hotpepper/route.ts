@@ -16,20 +16,24 @@ export async function GET(request: NextRequest) {
         const lng = searchParams.get("lng") || "";
         const range = searchParams.get("range") || "3";
 
-        const params = new URLSearchParams({
+        const params: Record<string, string> = {
             key: process.env.HOTPEPPER_API_KEY!,
-            keyword,
-            lat,
-            lng,
-            range,
             format: "json",
             count: "20",
-        });
+        };
 
-        const response = await fetch(`${HOTPEPPER_API_URL}?${params}`);
+        if (keyword) params.keyword = keyword;
+        if (lat && lng) {
+            params.lat = lat;
+            params.lng = lng;
+            params.range = range;
+        }
+
+        const queryString = new URLSearchParams(params).toString();
+        const response = await fetch(`${HOTPEPPER_API_URL}?${queryString}`);
 
         if (!response.ok) {
-            throw new Error("HotPepperAPI requestfailed");
+            throw new Error("HotPepperAPI request failed");
         }
 
         const data: HotPepperApiResponse = await response.json();
@@ -50,47 +54,47 @@ export async function GET(request: NextRequest) {
             stationName: shop.station_name,
             lat: shop.lat,
             lng: shop.lng,
-            genre: shop.genre.name,
-            genreCatch: shop.genre.catch,
-            subGenre: shop.sub_genre.name,
-            budget: shop.budget.name,
-            budgetAverage: shop.budget.average,
-            budgetMemo: shop.budget_memo,
-            catch: shop.catch,
-            capacity: shop.capacity,
-            access: shop.access,
-            mobileAccess: shop.mobile_access,
-            photo: shop.photo.pc.l,
-            photoMedium: shop.photo.pc.m,
-            photoSmall: shop.photo.pc.s,
-            url: shop.urls.pc,
-            couponUrlPc: shop.coupon_urls.pc,
-            couponUrlSp: shop.coupon_urls.sp,
-            open: shop.open,
-            close: shop.close,
-            partyCapacity: shop.party_capacity,
-            wifi: shop.wifi,
-            wedding: shop.wedding,
-            course: shop.course,
-            freeDrink: shop.free_drink,
-            freeFood: shop.free_food,
-            privateRoom: shop.private_room,
-            horigotatsu: shop.horigotatsu,
-            tatami: shop.tatami,
-            card: shop.card,
-            nonSmoking: shop.non_smoking,
-            charter: shop.charter,
-            parking: shop.parking,
-            barrierFree: shop.barrier_free,
-            show: shop.show,
-            karaoke: shop.karaoke,
-            band: shop.band,
-            tv: shop.tv,
-            lunch: shop.lunch,
-            midnight: shop.midnight,
-            english: shop.english,
-            pet: shop.pet,
-            child: shop.child,
+            genre: shop.genre?.name || "",
+            genreCatch: shop.genre?.catch || "",
+            subGenre: shop.sub_genre?.name || "",
+            budget: shop.budget?.name || "",
+            budgetAverage: shop.budget?.average || "",
+            budgetMemo: shop.budget_memo || "",
+            catch: shop.catch || "",
+            capacity: shop.capacity || 0,
+            access: shop.access || "",
+            mobileAccess: shop.mobile_access || "",
+            photo: shop.photo?.pc?.l || "",
+            photoMedium: shop.photo?.pc?.m || "",
+            photoSmall: shop.photo?.pc?.s || "",
+            url: shop.urls?.pc || "",
+            couponUrlPc: shop.coupon_urls?.pc || "",
+            couponUrlSp: shop.coupon_urls?.sp || "",
+            open: shop.open || "",
+            close: shop.close || "",
+            partyCapacity: shop.party_capacity || 0,
+            wifi: shop.wifi || "",
+            wedding: shop.wedding || "",
+            course: shop.course || "",
+            freeDrink: shop.free_drink || "",
+            freeFood: shop.free_food || "",
+            privateRoom: shop.private_room || "",
+            horigotatsu: shop.horigotatsu || "",
+            tatami: shop.tatami || "",
+            card: shop.card || "",
+            nonSmoking: shop.non_smoking || "",
+            charter: shop.charter || "",
+            parking: shop.parking || "",
+            barrierFree: shop.barrier_free || "",
+            show: shop.show || "",
+            karaoke: shop.karaoke || "",
+            band: shop.band || "",
+            tv: shop.tv || "",
+            lunch: shop.lunch || "",
+            midnight: shop.midnight || "",
+            english: shop.english || "",
+            pet: shop.pet || "",
+            child: shop.child || "",
         }));
 
         return NextResponse.json({
