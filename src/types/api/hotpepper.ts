@@ -179,3 +179,10 @@ export interface HotPepperResponse {
     shops: Shop[];
     totalCount: number;
 }
+
+export interface SearchParams {
+    keyword?: string;
+    lat?: string;
+    lng?: string;
+    range?: string;
+}
