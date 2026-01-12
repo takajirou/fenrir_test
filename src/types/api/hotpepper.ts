@@ -184,5 +184,5 @@ export interface SearchParams {
     keyword?: string;
     lat?: string;
     lng?: string;
-    range?: string;
+    range?: number;
 }
