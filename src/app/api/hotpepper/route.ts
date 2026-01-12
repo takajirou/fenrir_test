@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
         const range = searchParams.get("range") || "3";
 
         const params = new URLSearchParams({
+            key: process.env.HOTPEPPER_API_KEY!,
             keyword,
             lat,
             lng,
