@@ -1,3 +1,5 @@
+// グルメサーチAPI
+
 interface HotPepperPhoto {
     pc: {
         l: string;
@@ -186,3 +188,33 @@ export interface SearchParams {
     lng?: string;
     range?: number;
 }
+
+// ジャンルマスタAPI
+
+export type HotPepperGenreMasterResponse = {
+    results: {
+        api_version: string;
+        results_available: number;
+        results_returned: number;
+        results_start: number;
+        genre: HotPepperGenre[];
+    };
+};
+
+export type HotPepperGenreMasterGenre = {
+    code: string;
+    name: string;
+};
+
+export type Genre = {
+    code: string;
+    name: string;
+};
+
+export type HotPepperGenreResponse = {
+    apiVersion: string;
+    totalCount: number;
+    returnedCount: number;
+    start: number;
+    genres: Genre[];
+};
