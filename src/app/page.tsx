@@ -5,11 +5,13 @@ import SearchForm from "@/components/SearchForm";
 import { SearchParams } from "@/types/api/hotpepper";
 import { useGeolocationParams } from "@/hooks/useGeolocationPrams";
 import { useHotPepperShops } from "@/hooks/useHotPepperShops";
+import styles from "@/styles/ShopSearch.module.css";
 
 export default function Home() {
     const [baseParams, setBaseParams] = useState<SearchParams>({
         keyword: "",
         range: 3,
+        genre: "",
     });
 
     const {
@@ -23,10 +25,15 @@ export default function Home() {
     console.log(data);
 
     return (
-        <div>
+        <div className={styles.wrap}>
             <SearchForm
-                onSearch={(keyword, range) =>
-                    setBaseParams((prev) => ({ ...prev, keyword, range }))
+                onSearch={(keyword, range, genre) =>
+                    setBaseParams((prev) => ({
+                        ...prev,
+                        keyword,
+                        range,
+                        genre,
+                    }))
                 }
             />
             <p>{data?.totalCount}</p>

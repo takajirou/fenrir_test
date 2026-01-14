@@ -184,11 +184,11 @@ export interface HotPepperResponse {
 
 export interface SearchParams {
     keyword?: string;
-    lat?: string;
-    lng?: string;
+    lat?: number;
+    lng?: number;
     range?: number;
+    genre?: string;
 }
-
 // ジャンルマスタAPI
 
 export type HotPepperGenreMasterResponse = {

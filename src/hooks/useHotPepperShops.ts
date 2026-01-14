@@ -19,6 +19,7 @@ export const useHotPepperShops = (params: SearchParams) => {
         queryFn: () => fetchHotPepperShops(params),
         enabled:
             Boolean(params.keyword) ||
+            Boolean(params.genre) ||
             (Boolean(params.lat) && Boolean(params.lng)),
         staleTime: 1000 * 60 * 5,
     });

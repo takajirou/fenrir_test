@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
         const lat = searchParams.get("lat") || "";
         const lng = searchParams.get("lng") || "";
         const range = searchParams.get("range") || "3";
+        const genre = searchParams.get("genre") || "";
 
         const params: Record<string, string> = {
             key: process.env.HOTPEPPER_API_KEY!,
@@ -23,6 +24,8 @@ export async function GET(request: NextRequest) {
         };
 
         if (keyword) params.keyword = keyword;
+        if (genre) params.genre = genre;
+
         if (lat && lng) {
             params.lat = lat;
             params.lng = lng;
