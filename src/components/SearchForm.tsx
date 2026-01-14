@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import styles from "@/styles/components/SearchForm.module.css";
+import { IoIosSearch } from "react-icons/io";
+import clsx from "clsx";
 
 interface rangeType {
     number: number;
@@ -12,7 +15,7 @@ interface Props {
 }
 
 const SearchForm = ({ onSearch }: Props) => {
-    const [range, setRange] = useState<number>(1);
+    const [rangeParams, setRangeParams] = useState<number>(1);
     const [keyword, setKeyword] = useState<string>("");
 
     const ranges: rangeType[] = [
@@ -42,23 +45,41 @@ const SearchForm = ({ onSearch }: Props) => {
         <form
             onSubmit={(e) => {
                 e.preventDefault();
-                onSearch(keyword, range);
+                onSearch(keyword, rangeParams);
             }}
+            className={styles.FormWrap}
         >
-            <input
-                type="text"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-            />
-            {ranges.map((range) => (
-                <button
-                    key={range.number}
-                    onClick={() => setRange(range.number)}
-                >
-                    {range.text}
+            <div className={clsx(styles.SearchFormWrap, "TextNormal")}>
+                <div className={styles.Search}>
+                    <IoIosSearch size={20} />
+                    <input
+                        type="text"
+                        value={keyword}
+                        onChange={(e) => setKeyword(e.target.value)}
+                        className={clsx(styles.SearchForm)}
+                        placeholder="キーワードを入力"
+                    />
+                </div>
+                <button type="submit" className={styles.SearchBtn}>
+                    検索
                 </button>
-            ))}
-            <button type="submit">検索</button>
+            </div>
+            <div className={clsx(styles.RangeWrap, "TextNormal")}>
+                <p>検索範囲</p>
+                {ranges.map((range) => (
+                    <button
+                        key={range.number}
+                        onClick={() => setRangeParams(range.number)}
+                        className={clsx(
+                            styles.RangeBtn,
+                            rangeParams === range.number && styles.active,
+                            "TextSub"
+                        )}
+                    >
+                        {range.text}
+                    </button>
+                ))}
+            </div>
         </form>
     );
 };
