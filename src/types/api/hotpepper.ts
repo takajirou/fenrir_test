@@ -218,3 +218,12 @@ export type HotPepperGenreResponse = {
     start: number;
     genres: Genre[];
 };
+
+export interface ShopCard {
+    id: string;
+    name: string;
+    access: string;
+    image: string;
+    genre: string;
+    budget: string;
+}
