@@ -15,7 +15,7 @@ interface Props {
 }
 
 const SearchForm = ({ onSearch }: Props) => {
-    const [rangeParams, setRangeParams] = useState<number>(1);
+    const [rangeParams, setRangeParams] = useState<number>(3);
     const [keyword, setKeyword] = useState<string>("");
     const [selectedGenre, setSelectedGenre] = useState<string>("");
     const [isGenreOpen, setIsGenreOpen] = useState<boolean>(false);
