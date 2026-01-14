@@ -84,3 +84,7 @@ input {
     font-style: normal;
     line-height: normal;
 }
+
+button {
+    cursor: pointer;
+}
