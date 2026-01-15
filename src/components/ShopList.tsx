@@ -12,19 +12,19 @@ interface Props {
 
 const ShopList = ({ shops, isLoading }: Props) => {
     if (isLoading) {
-        return <div className={styles.loading}>読み込み中...</div>;
+        return <div className={styles.Loading}>読み込み中...</div>;
     }
 
     if (shops.length === 0) {
-        return <div className={styles.empty}>検索結果がありません</div>;
+        return <div className={styles.Empty}>検索結果がありません</div>;
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.grid}>
+        <div className={styles.Container}>
+            <div className={styles.Grid}>
                 {shops.map((shop) => (
-                    <div key={shop.id} className={styles.card}>
-                        <div className={styles.thumbnail}>
+                    <div key={shop.id} className={styles.Card}>
+                        <div className={styles.Thumbnail}>
                             <Image
                                 src={shop.image}
                                 alt={shop.name}
@@ -32,27 +32,27 @@ const ShopList = ({ shops, isLoading }: Props) => {
                                 sizes="(max-width: 768px) 100vw, 33vw"
                                 style={{ objectFit: "cover" }}
                             />
-                            <div className={styles.genreBadge}>
+                            <div className={styles.GenreBadge}>
                                 <MdRestaurant size={14} />
                                 {shop.genre}
                             </div>
                         </div>
 
-                        <div className={styles.content}>
-                            <h3 className={styles.name}>{shop.name}</h3>
+                        <div className={styles.Content}>
+                            <h3 className={styles.Name}>{shop.name}</h3>
 
-                            <div className={styles.access}>
+                            <div className={styles.Access}>
                                 <IoLocationSharp
                                     size={18}
-                                    className={styles.locationIcon}
+                                    className={styles.LocationIcon}
                                 />
                                 <p>{shop.access}</p>
                             </div>
 
-                            <div className={styles.budget}>
+                            <div className={styles.Budget}>
                                 <BiWallet
                                     size={18}
-                                    className={styles.walletIcon}
+                                    className={styles.WalletIcon}
                                 />
                                 <span>{shop.budget}</span>
                             </div>

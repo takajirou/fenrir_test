@@ -1,13 +1,13 @@
-.container {
+.Container {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 
-    .grid {
+    .Grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         gap: 20px;
-        .card {
+        .Card {
             background-color: #fff;
             border-radius: 16px;
             overflow: hidden;
@@ -19,14 +19,14 @@
                 transform: translateY(-2px);
                 box-shadow: 0 8px 20px rgba(35, 35, 35, 0.2);
             }
-            .thumbnail {
+            .Thumbnail {
                 width: 100%;
                 height: 200px;
                 position: relative;
                 overflow: hidden;
             }
 
-            .genreBadge {
+            .GenreBadge {
                 position: absolute;
                 top: 12px;
                 right: 12px;
@@ -42,9 +42,9 @@
             }
         }
 
-        .content {
+        .Content {
             padding: 16px;
-            .name {
+            .Name {
                 font-size: 18px;
                 font-weight: 700;
                 color: #1f2937;
@@ -52,7 +52,7 @@
                 line-height: 1.4;
             }
 
-            .access {
+            .Access {
                 display: flex;
                 align-items: flex-start;
                 gap: 8px;
@@ -63,14 +63,14 @@
                     color: #6b7280;
                     line-height: 1.5;
                 }
-                .locationIcon {
+                .LocationIcon {
                     color: #ef4444;
                     flex-shrink: 0;
                     margin-top: 2px;
                 }
             }
 
-            .budget {
+            .Budget {
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -84,10 +84,15 @@
                     font-weight: 600;
                     color: #16a34a;
                 }
-                .walletIcon {
+                .WalletIcon {
                     color: #16a34a;
                 }
             }
         }
     }
+}
+
+.empty {
+    text-align: center;
+    font-size: 14px;
 }
