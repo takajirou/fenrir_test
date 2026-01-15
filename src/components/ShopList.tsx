@@ -16,7 +16,7 @@ const ShopList = ({ shops, isLoading }: Props) => {
     }
 
     if (shops.length === 0) {
-        return <div className={styles.Empty}>検索結果がありません</div>;
+        return <div className={styles.Empty}>該当する店舗が見つかりません</div>;
     }
 
     return (
