@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { apiClient } from "@/lib/axios";
 import { HotPepperResponse, SearchParams } from "@/types/api/hotpepper";
@@ -21,6 +21,7 @@ export const useHotPepperShops = (params: SearchParams) => {
             Boolean(params.keyword) ||
             Boolean(params.genre) ||
             (Boolean(params.lat) && Boolean(params.lng)),
+        placeholderData: keepPreviousData,
         staleTime: 1000 * 60 * 5,
     });
 };

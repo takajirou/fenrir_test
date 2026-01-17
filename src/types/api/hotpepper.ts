@@ -177,18 +177,24 @@ export interface Shop {
     child: string;
 }
 
-export interface HotPepperResponse {
+export type HotPepperResponse = {
     shops: Shop[];
-    totalCount: number;
-}
-
-export interface SearchParams {
+    pagination: {
+        page: number;
+        pageSize: number;
+        totalCount: number;
+        totalPages: number;
+    };
+};
+export type SearchParams = {
     keyword?: string;
-    lat?: number;
-    lng?: number;
-    range?: number;
     genre?: string;
-}
+    lat?: string;
+    lng?: string;
+    range?: number;
+    page: number;
+};
+
 // ジャンルマスタAPI
 
 export type HotPepperGenreMasterResponse = {
