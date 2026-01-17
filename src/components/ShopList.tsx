@@ -4,6 +4,7 @@ import { BiWallet } from "react-icons/bi";
 import Image from "next/image";
 import styles from "@/styles/components/ShopList.module.css";
 import { ShopCard } from "@/types/api/hotpepper";
+import LoadingOverlay from "./LoadingOverlay";
 
 interface Props {
     shops: ShopCard[];
@@ -12,7 +13,7 @@ interface Props {
 
 const ShopList = ({ shops, isLoading }: Props) => {
     if (isLoading) {
-        return <div className={styles.Loading}>読み込み中...</div>;
+        return <LoadingOverlay />;
     }
 
     if (shops.length === 0) {

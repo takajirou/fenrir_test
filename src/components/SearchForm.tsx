@@ -20,7 +20,7 @@ const SearchForm = ({ onSearch }: Props) => {
     const [selectedGenre, setSelectedGenre] = useState<string>("");
     const [isGenreOpen, setIsGenreOpen] = useState<boolean>(false);
 
-    const { data, isLoading, error } = useHotPepperGenres();
+    const { data } = useHotPepperGenres();
 
     const ranges: rangeType[] = [
         { number: 1, text: "300m" },
