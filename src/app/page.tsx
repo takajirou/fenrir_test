@@ -3,10 +3,10 @@
 import { useState, useMemo } from "react";
 import SearchForm from "@/components/SearchForm";
 import ShopList from "@/components/ShopList";
-import { SearchParams } from "@/types/api/hotpepper";
+import Pagination from "@/components/Pagination";
+import { SearchParams, ShopCard } from "@/types/api/hotpepper";
 import { useGeolocationParams } from "@/hooks/useGeolocationPrams";
 import { useHotPepperShops } from "@/hooks/useHotPepperShops";
-import { ShopCard } from "@/types/api/hotpepper";
 import styles from "@/styles/ShopSearch.module.css";
 
 export default function Home() {
@@ -14,6 +14,7 @@ export default function Home() {
         keyword: "",
         range: 3,
         genre: "",
+        page: 1,
     });
 
     const { params } = useGeolocationParams(baseParams);
@@ -32,20 +33,36 @@ export default function Home() {
         }));
     }, [data]);
 
+    const handleSearch = (keyword: string, range: number, genre?: string) => {
+        setBaseParams((prev) => ({
+            ...prev,
+            keyword,
+            range,
+            genre,
+            page: 1,
+        }));
+    };
+
+    const handlePageChange = (page: number) => {
+        setBaseParams((prev) => ({
+            ...prev,
+            page,
+        }));
+    };
+
     return (
         <div className={styles.wrap}>
-            <SearchForm
-                onSearch={(keyword, range, genre) =>
-                    setBaseParams((prev) => ({
-                        ...prev,
-                        keyword,
-                        range,
-                        genre,
-                    }))
-                }
-            />
+            <SearchForm onSearch={handleSearch} />
 
             <ShopList shops={shops} isLoading={isLoading || isFetching} />
+
+            {data && (
+                <Pagination
+                    currentPage={data.pagination.page}
+                    totalPages={data.pagination.totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
         </div>
     );
 }
