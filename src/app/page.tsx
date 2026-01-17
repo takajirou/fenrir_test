@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import SearchForm from "@/components/SearchForm";
 import ShopList from "@/components/ShopList";
 import Pagination from "@/components/Pagination";
@@ -10,15 +11,32 @@ import { useHotPepperShops } from "@/hooks/useHotPepperShops";
 import styles from "@/styles/ShopSearch.module.css";
 
 export default function Home() {
-    const [baseParams, setBaseParams] = useState<SearchParams>({
-        keyword: "",
-        range: 3,
-        genre: "",
-        page: 1,
-    });
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const [baseParams, setBaseParams] = useState<SearchParams>(() => ({
+        keyword: searchParams.get("keyword") || "",
+        range: Number(searchParams.get("range")) || 3,
+        genre: searchParams.get("genre") || "",
+        page: Number(searchParams.get("page")) || 1,
+    }));
 
     const { params } = useGeolocationParams(baseParams);
     const { data, isLoading, isFetching } = useHotPepperShops(params);
+
+    useEffect(() => {
+        const params = new URLSearchParams();
+
+        if (baseParams.keyword) params.set("keyword", baseParams.keyword);
+        if (baseParams.range) params.set("range", String(baseParams.range));
+        if (baseParams.genre) params.set("genre", baseParams.genre);
+        if (baseParams.page) params.set("page", String(baseParams.page));
+
+        const queryString = params.toString();
+        const newUrl = queryString ? `?${queryString}` : "/";
+
+        router.replace(newUrl, { scroll: false });
+    }, [baseParams, router]);
 
     const shops: ShopCard[] = useMemo(() => {
         if (!data?.shops) return [];
