@@ -9,6 +9,7 @@ import { SearchParams, ShopCard } from "@/types/api/hotpepper";
 import { useGeolocationParams } from "@/hooks/useGeolocationPrams";
 import { useHotPepperShops } from "@/hooks/useHotPepperShops";
 import styles from "@/styles/ShopSearch.module.css";
+import clsx from "clsx";
 
 export default function Home() {
     const router = useRouter();
@@ -69,8 +70,13 @@ export default function Home() {
     };
 
     return (
-        <div className={styles.wrap}>
+        <div className={styles.Wrap}>
             <SearchForm onSearch={handleSearch} />
+            {data && (
+                <p className={clsx("TextNormal", styles.Total)}>
+                    {data?.total}件の店舗が見つかりました
+                </p>
+            )}
 
             <ShopList shops={shops} isLoading={isLoading || isFetching} />
 

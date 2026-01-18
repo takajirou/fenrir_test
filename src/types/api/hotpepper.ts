@@ -178,6 +178,7 @@ export interface Shop {
 }
 
 export type HotPepperResponse = {
+    total: number;
     shops: Shop[];
     pagination: {
         page: number;

@@ -1,5 +1,9 @@
-.wrap {
+.Wrap {
     max-width: 1200px;
     margin: auto;
     margin-top: 30px;
+    .Total {
+        text-align: right;
+        margin-top: 32px;
+    }
 }

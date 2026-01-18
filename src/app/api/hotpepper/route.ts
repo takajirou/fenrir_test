@@ -47,6 +47,7 @@ export async function GET(request: NextRequest) {
         }
 
         const data: HotPepperApiResponse = await response.json();
+        const total: number = data.results.results_available;
 
         const shops: Shop[] = data.results.shop
             ? data.results.shop.map((shop: HotPepperShop) => ({
@@ -103,6 +104,7 @@ export async function GET(request: NextRequest) {
             : [];
 
         return NextResponse.json({
+            total,
             shops,
             pagination: {
                 page,
