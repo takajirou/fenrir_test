@@ -5,6 +5,7 @@ import Image from "next/image";
 import styles from "@/styles/components/ShopList.module.css";
 import { ShopCard } from "@/types/api/hotpepper";
 import LoadingOverlay from "./LoadingOverlay";
+import Link from "next/link";
 
 interface Props {
     shops: ShopCard[];
@@ -24,7 +25,7 @@ const ShopList = ({ shops, isLoading }: Props) => {
         <div className={styles.Container}>
             <div className={styles.Grid}>
                 {shops.map((shop) => (
-                    <div key={shop.id} className={styles.Card}>
+                    <Link href={shop.url} key={shop.id} className={styles.Card}>
                         <div className={styles.Thumbnail}>
                             <Image
                                 src={shop.image}
@@ -58,7 +59,7 @@ const ShopList = ({ shops, isLoading }: Props) => {
                                 <span>{shop.budget}</span>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

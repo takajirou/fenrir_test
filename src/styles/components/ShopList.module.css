@@ -8,16 +8,19 @@
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         gap: 20px;
         .Card {
+            text-decoration: none;
             background-color: #fff;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(35, 35, 35, 0.15);
             transition: all 0.3s ease;
             cursor: pointer;
-
             &:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 8px 20px rgba(35, 35, 35, 0.2);
+                .Name {
+                    text-decoration: underline;
+                }
             }
             .Thumbnail {
                 width: 100%;
