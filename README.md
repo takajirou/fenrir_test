@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 簡易仕様書
 
-## Getting Started
+### 作者
+高木 湊二郎
 
-First, run the development server:
+### アプリ名
+NearEats
 
-```bash
+
+### 該当プロジェクトのリポジトリ URL
+https://github.com/takajirou/fenrir_test
+
+## 開発環境
+### 開発環境
+VScode 1.107.1 
+
+### 開発言語
+typescript,javascript,css
+
+
+### 開発環境構築手順(ウェブアプリ)
+1. リポジトリをクローン
+git clone https://github.com/takajirou/fenrir_test.git
+
+2. Hot Pepper APIキーを取得
+https://webservice.recruit.co.jp/
+
+3. .env.local をrouteディレクトリに作成しAPIキーを追加
+HOTPEPPER_API_KEY=your_api_key
+
+4. 依存関係のインストール
+npm install
+
+5. 開発サーバー起動
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 使用しているAPI,SDK,ライブラリなど
+API
+- ホットペッパーグルメサーチAPI
+- ホットペッパージャンルマスタAPI
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+ライブラリ
+- axios
+- react-query
+- clsx
+- react-icons
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## 開発期間
+14日間
 
-To learn more about Next.js, take a look at the following resources:
+## 動作対象OS・ブラウザ
+### 動作対象OS
+macOS 26.0
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 動作対象ブラウザ
+Google Chrome 143.0
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 機能一覧
+- レストラン検索：ホットペッパーグルメサーチAPIを使用して、現在地周辺の飲食店を検索する。
 
-## Deploy on Vercel
+### 画面一覧
+- 検索画面 ：キーワード・ジャンル・範囲を指定してレストランを検索する。
+- 一覧画面 ：検索結果の飲食店を一覧表示する。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### コンセプト
+ストレスフリーなグルメ検索体験
+
+#### こだわったポイント
+React Queryのキャッシュ機能で高速なページ遷移を実現したり、URLパラメータによる状態保持で、リロードしても検索結果を維持する事で、UXの最適化を行いました。
+また、フロントエンドから直接外部APIを叩かず、Next.jsのRoute Handlerを経由することで、APIキーなどの機密情報をクライアント側に露出させない様しつつ、外部APIの型とアプリ内部の型を明確に分離することで、将来的にAPIの仕様が変更されても、変換ロジックを修正するだけで対応可能にしました。
+
+#### デザイン面でこだわったポイント
+モバイル端末でも使いやすいように、ボタンサイズや間隔を調整、画面サイズに応じた柔軟なレイアウトにしました。
+また、ホバー時の色変化やトランジション効果、ローディングオーバーレイを追加するなどをし、 状態フィードバックを充実させました。
+
+### 技術面でアドバイスして欲しいポイント
+ロジックとUIのファイルの分割をどこまで行えばいいのかわからず、pageファイル内にまとめて書いてしまいがちなので、今回の場合、「ここを分けると保守性の高いコードになる」等あれば教えて頂きたいです。
+今回の場合、検索ボタンを押した時のみAPIを再取得する仕様にしたのですが、検索ボタンを押した時以外、ジャンルや範囲を切り替えた時でも再取得する仕様の方がよかったでしょうか？
+また、ページネーション実装で改善できるがあればお伺いしたいです。
+
+### 自己評価
+課題に対してあまり時間が割けず、お気に入り機能や検索履歴の保存機能をつけたかったのですが間に合わなかったのが心残りです。
+最近デザインはチームメンバーに任せきりになっていたり、UIコンポーネントライブラリを使用して行う事が多く、1から作るのは約1年ぶりだったのですが、人のデザインを見る機会は多くあった為か、以前より優れた物が作れるようになっており個人的にはかなり満足しています。
+技術面では、セキュリティと保守性を最優先に設計しました。
+これらの設計判断を自分で行い実装してみて、以前よりも「なぜこの技術を使うのか」を言語化できるようになったと感じています。
+一方で、エラーハンドリングや、アクセシビリティのさらなる改善など、実務レベルに達するには課題もあると認識しています。
