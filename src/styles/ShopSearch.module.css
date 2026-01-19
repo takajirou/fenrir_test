@@ -7,3 +7,14 @@
         margin-top: 32px;
     }
 }
+
+@media (max-width: 640px) {
+    .Wrap {
+        .FormWrap {
+            padding: 0 20px;
+        }
+        .Total {
+            text-align: center;
+        }
+    }
+}
