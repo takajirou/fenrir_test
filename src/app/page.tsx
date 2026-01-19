@@ -19,6 +19,7 @@ export default function Home() {
         keyword: searchParams.get("keyword") || "",
         range: Number(searchParams.get("range")) || 3,
         genre: searchParams.get("genre") || "",
+        sort: searchParams.get("sort") || "4",
         page: Number(searchParams.get("page")) || 1,
     }));
 
@@ -31,6 +32,7 @@ export default function Home() {
         if (baseParams.keyword) params.set("keyword", baseParams.keyword);
         if (baseParams.range) params.set("range", String(baseParams.range));
         if (baseParams.genre) params.set("genre", baseParams.genre);
+        if (baseParams.sort) params.set("sort", baseParams.sort);
         if (baseParams.page) params.set("page", String(baseParams.page));
 
         const queryString = params.toString();
@@ -49,15 +51,22 @@ export default function Home() {
             image: shop.photo || "",
             genre: shop.genre,
             budget: shop.budget || "予算情報なし",
+            url: shop.url,
         }));
     }, [data]);
 
-    const handleSearch = (keyword: string, range: number, genre?: string) => {
+    const handleSearch = (
+        keyword: string,
+        range: number,
+        genre?: string,
+        sort?: string,
+    ) => {
         setBaseParams((prev) => ({
             ...prev,
             keyword,
             range,
-            genre,
+            genre: genre || "",
+            sort: sort || "",
             page: 1,
         }));
     };

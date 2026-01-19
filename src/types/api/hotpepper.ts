@@ -194,6 +194,7 @@ export type SearchParams = {
     lng?: string;
     range?: number;
     page: number;
+    sort?: string;
 };
 
 // ジャンルマスタAPI
@@ -233,4 +234,5 @@ export interface ShopCard {
     image: string;
     genre: string;
     budget: string;
+    url: string;
 }

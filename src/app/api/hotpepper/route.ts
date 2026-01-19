@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
         const lng = searchParams.get("lng") || "";
         const range = searchParams.get("range") || "3";
         const genre = searchParams.get("genre") || "";
+        const sort = searchParams.get("sort") || "";
         const page = Number(searchParams.get("page") || "1");
 
         const start = (page - 1) * PAGE_SIZE + 1;
@@ -39,6 +40,9 @@ export async function GET(request: NextRequest) {
             params.range = range;
         }
 
+        if (sort === "4") {
+            params.order = "4";
+        }
         const queryString = new URLSearchParams(params).toString();
         const response = await fetch(`${HOTPEPPER_API_URL}?${queryString}`);
 
@@ -49,7 +53,7 @@ export async function GET(request: NextRequest) {
         const data: HotPepperApiResponse = await response.json();
         const total: number = data.results.results_available;
 
-        const shops: Shop[] = data.results.shop
+        let shops: Shop[] = data.results.shop
             ? data.results.shop.map((shop: HotPepperShop) => ({
                   id: shop.id,
                   name: shop.name,
@@ -103,6 +107,22 @@ export async function GET(request: NextRequest) {
               }))
             : [];
 
+        if (sort === "budget_asc" || sort === "budget_desc") {
+            shops = shops.sort((a, b) => {
+                const parsePrice = (str: string): number => {
+                    const match = str.match(/\d+/);
+                    return match ? parseInt(match[0]) : 0;
+                };
+
+                const priceA = parsePrice(a.budgetAverage || a.budget || "0");
+                const priceB = parsePrice(b.budgetAverage || b.budget || "0");
+
+                return sort === "budget_asc"
+                    ? priceA - priceB
+                    : priceB - priceA;
+            });
+        }
+
         return NextResponse.json({
             total,
             shops,
@@ -111,7 +131,7 @@ export async function GET(request: NextRequest) {
                 pageSize: PAGE_SIZE,
                 totalCount: data.results.results_available,
                 totalPages: Math.ceil(
-                    data.results.results_available / PAGE_SIZE
+                    data.results.results_available / PAGE_SIZE,
                 ),
             },
         });
@@ -119,7 +139,7 @@ export async function GET(request: NextRequest) {
         console.error("Hot Pepper API Error:", error);
         return NextResponse.json(
             { error: "レストラン情報の取得に失敗しました" },
-            { status: 500 }
+            { status: 500 },
         );
     }
 }

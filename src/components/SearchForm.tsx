@@ -2,7 +2,8 @@
 import { useState } from "react";
 import styles from "@/styles/components/SearchForm.module.css";
 import { useHotPepperGenres } from "@/hooks/useHotPepperGenres";
-import { IoIosSearch, IoIosArrowDown } from "react-icons/io";
+import { IoIosSearch } from "react-icons/io";
+import DropdownSelect from "./DropDownSelect";
 import clsx from "clsx";
 
 interface rangeType {
@@ -10,15 +11,25 @@ interface rangeType {
     text: string;
 }
 
+interface sortType {
+    value: string;
+    text: string;
+}
+
 interface Props {
-    onSearch: (keyword: string, range: number, genre?: string) => void;
+    onSearch: (
+        keyword: string,
+        range: number,
+        genre?: string,
+        sort?: string,
+    ) => void;
 }
 
 const SearchForm = ({ onSearch }: Props) => {
     const [rangeParams, setRangeParams] = useState<number>(3);
     const [keyword, setKeyword] = useState<string>("");
     const [selectedGenre, setSelectedGenre] = useState<string>("");
-    const [isGenreOpen, setIsGenreOpen] = useState<boolean>(false);
+    const [selectedSort, setSelectedSort] = useState<string>("nearby");
 
     const { data } = useHotPepperGenres();
 
@@ -30,19 +41,20 @@ const SearchForm = ({ onSearch }: Props) => {
         { number: 5, text: "3km" },
     ];
 
-    const handleGenreSelect = (genreCode: string) => {
-        setSelectedGenre(genreCode);
-        setIsGenreOpen(false);
+    const sortOptions: sortType[] = [
+        { value: "nearby", text: "距離が近い順" },
+        { value: "4", text: "おすすめ順" },
+        { value: "budget_asc", text: "価格帯が安い順" },
+        { value: "budget_desc", text: "価格帯が高い順" },
+    ];
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSearch(keyword, rangeParams, selectedGenre, selectedSort);
     };
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                onSearch(keyword, rangeParams, selectedGenre);
-            }}
-            className={styles.FormWrap}
-        >
+        <div className={styles.FormWrap}>
             <div className={clsx(styles.SearchFormWrap, "TextNormal")}>
                 <div className={styles.Search}>
                     <IoIosSearch size={20} />
@@ -55,7 +67,7 @@ const SearchForm = ({ onSearch }: Props) => {
                     />
                 </div>
                 <button
-                    type="submit"
+                    onClick={handleSubmit}
                     className={styles.SearchBtn}
                     aria-label="検索"
                 >
@@ -63,70 +75,30 @@ const SearchForm = ({ onSearch }: Props) => {
                 </button>
             </div>
 
-            <div className={styles.GenreFilterWrap}>
-                <button
-                    type="button"
-                    onClick={() => setIsGenreOpen(!isGenreOpen)}
-                    className={clsx(styles.GenreToggle, "TextNormal")}
-                    aria-label="ジャンルを選択"
-                >
-                    <span>
-                        {selectedGenre
-                            ? data?.genres.find((g) => g.code === selectedGenre)
-                                  ?.name || "ジャンルを選択"
-                            : "ジャンルを選択"}
-                    </span>
-                    <IoIosArrowDown
-                        size={20}
-                        className={clsx(
-                            styles.ArrowIcon,
-                            isGenreOpen && styles.ArrowOpen,
-                        )}
-                    />
-                </button>
+            <DropdownSelect
+                value={selectedGenre}
+                placeholder="ジャンルを選択"
+                ariaLabel="ジャンルを選択"
+                onChange={setSelectedGenre}
+                options={[
+                    { value: "", label: "すべて" },
+                    ...(data?.genres.map((g) => ({
+                        value: g.code,
+                        label: g.name,
+                    })) ?? []),
+                ]}
+            />
 
-                <div
-                    className={clsx(
-                        styles.GenreDropdown,
-                        isGenreOpen && styles.DropdownOpen,
-                    )}
-                >
-                    {data && (
-                        <>
-                            <button
-                                type="button"
-                                onClick={() => handleGenreSelect("")}
-                                className={clsx(
-                                    styles.GenreItem,
-                                    "TextSub",
-                                    selectedGenre === "" && styles.GenreActive,
-                                )}
-                                aria-label="すべて"
-                            >
-                                すべて
-                            </button>
-                            {data.genres.map((genre) => (
-                                <button
-                                    key={genre.code}
-                                    type="button"
-                                    onClick={() =>
-                                        handleGenreSelect(genre.code)
-                                    }
-                                    className={clsx(
-                                        styles.GenreItem,
-                                        "TextSub",
-                                        selectedGenre === genre.code &&
-                                            styles.GenreActive,
-                                    )}
-                                    aria-label={genre.name}
-                                >
-                                    {genre.name}
-                                </button>
-                            ))}
-                        </>
-                    )}
-                </div>
-            </div>
+            <DropdownSelect
+                value={selectedSort}
+                placeholder="おすすめ順"
+                ariaLabel="並び順を選択"
+                onChange={setSelectedSort}
+                options={sortOptions.map((s) => ({
+                    value: s.value,
+                    label: s.text,
+                }))}
+            />
 
             <div className={clsx(styles.RangeWrap, "TextNormal")}>
                 <p>検索範囲</p>
@@ -146,7 +118,7 @@ const SearchForm = ({ onSearch }: Props) => {
                     </button>
                 ))}
             </div>
-        </form>
+        </div>
     );
 };
 
