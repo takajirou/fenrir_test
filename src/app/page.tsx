@@ -80,8 +80,10 @@ export default function Home() {
 
     return (
         <div className={styles.Wrap}>
-            <SearchForm onSearch={handleSearch} />
-            {data && (
+            <div className={styles.FormWrap}>
+                <SearchForm onSearch={handleSearch} />
+            </div>
+            {data && shops.length !== 0 && (
                 <p className={clsx("TextNormal", styles.Total)}>
                     {data?.total}件の店舗が見つかりました
                 </p>
