@@ -54,7 +54,11 @@ const SearchForm = ({ onSearch }: Props) => {
                         placeholder="キーワードを入力"
                     />
                 </div>
-                <button type="submit" className={styles.SearchBtn}>
+                <button
+                    type="submit"
+                    className={styles.SearchBtn}
+                    aria-label="検索"
+                >
                     検索
                 </button>
             </div>
@@ -64,6 +68,7 @@ const SearchForm = ({ onSearch }: Props) => {
                     type="button"
                     onClick={() => setIsGenreOpen(!isGenreOpen)}
                     className={clsx(styles.GenreToggle, "TextNormal")}
+                    aria-label="ジャンルを選択"
                 >
                     <span>
                         {selectedGenre
@@ -75,7 +80,7 @@ const SearchForm = ({ onSearch }: Props) => {
                         size={20}
                         className={clsx(
                             styles.ArrowIcon,
-                            isGenreOpen && styles.ArrowOpen
+                            isGenreOpen && styles.ArrowOpen,
                         )}
                     />
                 </button>
@@ -83,7 +88,7 @@ const SearchForm = ({ onSearch }: Props) => {
                 <div
                     className={clsx(
                         styles.GenreDropdown,
-                        isGenreOpen && styles.DropdownOpen
+                        isGenreOpen && styles.DropdownOpen,
                     )}
                 >
                     {data && (
@@ -94,8 +99,9 @@ const SearchForm = ({ onSearch }: Props) => {
                                 className={clsx(
                                     styles.GenreItem,
                                     "TextSub",
-                                    selectedGenre === "" && styles.GenreActive
+                                    selectedGenre === "" && styles.GenreActive,
                                 )}
+                                aria-label="すべて"
                             >
                                 すべて
                             </button>
@@ -110,8 +116,9 @@ const SearchForm = ({ onSearch }: Props) => {
                                         styles.GenreItem,
                                         "TextSub",
                                         selectedGenre === genre.code &&
-                                            styles.GenreActive
+                                            styles.GenreActive,
                                     )}
+                                    aria-label={genre.name}
                                 >
                                     {genre.name}
                                 </button>
@@ -131,8 +138,9 @@ const SearchForm = ({ onSearch }: Props) => {
                         className={clsx(
                             styles.RangeBtn,
                             rangeParams === range.number && styles.active,
-                            "TextSub"
+                            "TextSub",
                         )}
+                        aria-label={range.text}
                     >
                         {range.text}
                     </button>
